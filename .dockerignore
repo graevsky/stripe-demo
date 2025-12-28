@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.pdb
+
+# Virtualenvs
+venv/
+.venv/
+
+# Django
+*.sqlite3
+db.sqlite3
+staticfiles/
+media/
+
+# Tooling / OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Env files
+.env
+.env.*
+
+# Tests / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+README.md

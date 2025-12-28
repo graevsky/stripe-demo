@@ -1,0 +1,19 @@
+services:
+  web:
+    build:
+      context: .
+    container_name: stripe_demo_web
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - sqlite_db:/app/data
+    command: >
+      sh -c "
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+
+volumes:
+  sqlite_db:
