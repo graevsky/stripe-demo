@@ -3,7 +3,7 @@ import environ
 import stripe
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env(
     STRIPE_SECRET_KEY=(str, None),
 )
