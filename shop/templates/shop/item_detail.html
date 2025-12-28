@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Buy {{ item.name }}</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .meta {
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description }}</p>
+    <p class="meta">
+      Price: {{ item.price }} {{ item.currency|upper }}
+    </p>
+
+    {% if request.GET.success %}
+    <p class="meta">Payment success (redirected back).</p>
+    {% endif %}
+    {% if request.GET.canceled %}
+    <p class="meta">Payment canceled.</p>
+    {% endif %}
+
+    <button id="buy-button">Buy</button>
+  </div>
+
+  <script type="text/javascript">
+    const stripe = Stripe("{{ stripe_public_key }}");
+    const buyButton = document.getElementById("buy-button");
+
+    buyButton.addEventListener("click", async () => {
+      const res = await fetch("/buy/{{ item.id }}/", { method: "GET" });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Failed to create checkout session");
+        return;
+      }
+
+      const result = await stripe.redirectToCheckout({ sessionId: data.id });
+
+      if (result.error) {
+        alert(result.error.message);
+      }
+    });
+  </script>
+</body>
+
+</html>
